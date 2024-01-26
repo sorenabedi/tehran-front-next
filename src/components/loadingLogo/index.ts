@@ -1,1 +1,3 @@
-export { default as LoadingLogo } from "./loadingLogo";
+import LoadingLogo from "./loadingLogo";
+
+export default LoadingLogo;

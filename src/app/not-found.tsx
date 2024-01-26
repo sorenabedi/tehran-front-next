@@ -1,9 +1,9 @@
-import Link from "next/link";
+import { FunctionComponent } from "react";
+import ErrorView from "@/views/error";
 
-export default function NotFound() {
-  return (
-    <div className='min-h-dvh w-full flex justify-center items-center'>
-      <Link href='/'>Return Home</Link>
-    </div>
-  );
-}
+const NotFoundPage: FunctionComponent = () => {
+  return <ErrorView />;
+};
+
+NotFoundPage.displayName = "NotFoundPage";
+export default NotFoundPage;

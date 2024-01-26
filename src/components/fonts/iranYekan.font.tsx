@@ -28,7 +28,7 @@ const FontIranYekanX = localFont({
     },
     {
       path: "../../assets/fonts/IRANYekanX-pro/woff2/IRANYekanX-Bold.woff2",
-      weight: "normal",
+      weight: "700",
       style: "bold",
     },
     {
@@ -63,17 +63,17 @@ const FontIranYekanX = localFont({
     },
     {
       path: "../../assets/fonts/IRANYekanX-pro/woff2/IRANYekanX-Light.woff2",
-      weight: "300",
+      weight: "400",
       style: "normal",
     },
     {
       path: "../../assets/fonts/IRANYekanX-pro/woff2/IRANYekanX-UltraLight.woff2",
-      weight: "200",
+      weight: "300",
       style: "normal",
     },
     {
       path: "../../assets/fonts/IRANYekanX-pro/woff2/IRANYekanX-Thin.woff2",
-      weight: "700",
+      weight: "200",
       style: "normal",
     },
     {

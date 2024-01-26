@@ -1,1 +1,12 @@
 export { default as LoadingSvg } from "./loading.svg";
+export { default as LogoutSvg } from "./logout.svg";
+export { default as AccountSvg } from "./account.svg";
+export { default as ReportSvg } from "./report.svg";
+export { default as SunSvg } from "./sun.svg";
+export { default as MoonSvg } from "./moon.svg";
+export { default as LaptopSvg } from "./laptop.svg";
+export { default as ChevronDownSvg } from "./chevronDown.svg";
+export { default as ChevronUpSvg } from "./chevronUp.svg";
+export { default as ChevronRightSvg } from "./chevronRight.svg";
+export { default as ChevronLeftSvg } from "./chevronLeft.svg";
+export { default as NotificationSvg } from "./notification.svg";

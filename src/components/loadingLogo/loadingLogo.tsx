@@ -60,4 +60,5 @@ const LoadingLogo: FunctionComponent<TRLoadingLogo> = ({
     </div>
   );
 };
+LoadingLogo.displayName = "LoadingLogo";
 export default LoadingLogo;
