@@ -34,7 +34,7 @@ const Chart: FunctionComponent<TRChart> = ({
   return (
     <div
       className={clsx(
-        "p-4 inline-block bg-background bg-opacity-80 rounded flex justify-around items-center flex-col min-h-96 min-w-96 w-5/12",
+        "p-4 inline-block bg-background bg-opacity-80 rounded flex justify-around items-center flex-col min-h-96 min-w-96 w-12/12",
         className
       )}
     >

@@ -10,3 +10,8 @@ export { default as ChevronUpSvg } from "./chevronUp.svg";
 export { default as ChevronRightSvg } from "./chevronRight.svg";
 export { default as ChevronLeftSvg } from "./chevronLeft.svg";
 export { default as NotificationSvg } from "./notification.svg";
+export { default as EditSvg } from "./edit.svg";
+export { default as PhoneSvg } from "./phone.svg";
+export { default as HamburgerSvg } from "./hamburger.svg";
+export { default as EyeSvg } from "./eye.svg";
+export { default as HeartSvg } from "./heart.svg";

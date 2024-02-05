@@ -1,74 +1,83 @@
 import { toast } from "@/components/ui/toast";
 import { fetcher } from "@/utilities/fetcher";
-import { CancelTokenSource } from "axios";
+import { Axios, AxiosError, CancelTokenSource } from "axios";
 import { create } from "zustand";
 import { useGlobalStore } from "./global.store";
 
 export type TRUserStore = {
   user?: {
+    id: string;
     firstName?: string;
     lastName?: string;
     phoneNumber?: string;
     avatar?: string;
+    username: string;
+    createdAt: Date;
     role: "ADMIN" | "SUPERVISOR" | "CONSULTANT" | "OPERATOR";
   };
-  loginUser: (data: TRUserStore) => void;
+  loginUser: (data: {
+    CancelTokenSource?: CancelTokenSource;
+    username: string;
+    password: string;
+  }) => Promise<void>;
   logoutUser: (CancelTokenSource?: CancelTokenSource) => Promise<void>;
   checkAuthentication: (
     CancelTokenSource?: CancelTokenSource
-  ) => Promise<Record<string, string>>;
+  ) => Promise<Record<string, any> | undefined>;
 };
 
 export const useUserStore = create<TRUserStore>((set) => ({
   user: undefined,
-  loginUser: (data: TRUserStore) => set(() => data),
-  logoutUser: async () => {
+  loginUser: async ({ CancelTokenSource, username, password }) => {
     try {
-      useGlobalStore.getState().LoadingLayoutShow();
-      const data = () =>
-        new Promise((res) => {
-          setTimeout(() => res(true), 1000);
-        });
-      await data();
-      // const response = await fetcher.get("/user/info", {
-      //   cancelToken: CancelTokenSource.token,
-      // });
+      const data = await fetcher.post<TRUserStore["user"]>(
+        "/auth/signin",
+        { username, passwd: password },
+        {
+          cancelToken: CancelTokenSource?.token,
+        }
+      );
+      set((state) => ({ ...state, user: data.data }));
+    } catch (error) {
+      //@ts-expect-error
+      throw new Error((error as AxiosError)?.response?.data.message);
+    }
+  },
+  logoutUser: async (CancelTokenSource) => {
+    try {
+      await fetcher.post(
+        "/auth/signout",
+        {},
+        {
+          cancelToken: CancelTokenSource?.token,
+        }
+      );
       set((state) => ({ ...state, user: undefined }));
     } catch (error) {
-      toast.error("error");
+      //@ts-expect-error
+      throw new Error((error as AxiosError)?.response?.data.message);
     }
-    useGlobalStore.getState().LoadingLayoutHide();
   },
   checkAuthentication: async (CancelTokenSource?: CancelTokenSource) => {
     try {
       useGlobalStore.getState().LoadingLayoutShow();
-      const data = () =>
-        new Promise((res) => {
-          setTimeout(() => res(true), 1000);
-        });
-      // await data();
-      const response = await fetcher.get(
-        // "hjsonplaceholder.typicode.com/users/1",
-        "https://jsonplaceholder.typicode.com/users/1",
+      const data = await fetcher.get<TRUserStore["user"]>(
+        "/auth",
+
         {
           cancelToken: CancelTokenSource?.token,
         }
       );
       set((state) => ({
         ...state,
-        user: {
-          firstName: "سورن",
-          lastName: "عابدی",
-          phoneNumber: "۰۹۹۰۱۸۸۹۵۵۷",
-          role: "SUPERVISOR",
-          avatar: "https://i.pravatar.cc/350?img=22",
-        },
+        user: data.data,
       }));
       useGlobalStore.getState().LoadingLayoutHide();
-      return response.data;
+      return data.data;
     } catch (error) {
       useGlobalStore.getState().LoadingLayoutHide();
-      throw new Error((error as Error)?.message);
+      //@ts-expect-error
+      throw new Error((error as AxiosError)?.response?.data.message);
     }
   },
 }));

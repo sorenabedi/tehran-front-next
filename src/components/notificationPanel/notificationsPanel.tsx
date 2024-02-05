@@ -21,6 +21,7 @@ import { createBreakpoint } from "react-use";
 import { screens } from "tailwindcss/defaultTheme";
 import NotificationPanelTrigger from "./notificationPanelTrigger";
 import NotificationPanelContent from "./notificationPanelContent";
+import { useUserStore } from "@/store";
 
 const useBreakpoint = createBreakpoint({
   "2xl": Number(screens["2xl"].replace("px", "")),
@@ -33,12 +34,15 @@ const useBreakpoint = createBreakpoint({
 const NotificationsPanel: FunctionComponent = () => {
   const [open, setOpen] = useState(false);
   const breakPoint = useBreakpoint() as keyof typeof screens;
+  const user = useUserStore((state) => state.user);
 
   if (["sm", "md"].includes(breakPoint))
     return (
       <Drawer open={open} onOpenChange={setOpen}>
         <DrawerTrigger asChild>
-          <NotificationPanelTrigger />
+          <NotificationPanelTrigger
+            hidden={!["ADMIN", "SUPERVISOR"].includes(user?.role || "")}
+          />
         </DrawerTrigger>
         <DrawerContent dir='rtl'>
           <DrawerHeader className='sm:text-start'>

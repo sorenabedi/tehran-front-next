@@ -2,6 +2,7 @@ import { ThemeToggler } from "@/components/theme";
 import LoadingLogo from "@/components/loadingLogo";
 import { UserAuthPanel } from "./userAuthPanel";
 import { FunctionComponent } from "react";
+import PolinoLogo from "@/components/PolinoCopyright/polinoCopyright";
 
 const SigninView: FunctionComponent = () => {
   return (
@@ -12,6 +13,9 @@ const SigninView: FunctionComponent = () => {
           <div className='w-full max-w-xs md:w-2/3 md:max-w-md overflow-hisdden'>
             <UserAuthPanel />
           </div>
+        </div>
+        <div className='absolute bottom-0 inline-end-0 z-0 w-full px-14 text-center'>
+          <PolinoLogo />
         </div>
         <ThemeToggler />
       </div>

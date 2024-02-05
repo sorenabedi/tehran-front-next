@@ -1,6 +1,6 @@
 "use client";
 import { useGlobalStore, useUserStore } from "@/store";
-import { cancelToken, fetcher } from "@/utilities/fetcher";
+import { cancelToken } from "@/utilities/fetcher";
 import ErrorView from "@/views/error";
 import { CancelTokenSource } from "axios";
 import { usePathname, useRouter } from "next/navigation";
@@ -36,30 +36,22 @@ const AuthLayout: FunctionComponent<PropsWithChildren> = ({ children }) => {
         await checkAuthentication(CancelTokenSource);
         if (["", "auth"].includes(activePath)) router.push("/panel");
       } catch (error) {
-        console.error("Error:", (error as Error)?.message);
         if (!["", "auth"].includes(activePath)) router.push("/auth/signin");
       }
     },
-    [
-      LoadingLayoutShow,
-      LoadingLayoutHide,
-      activePath,
-      router,
-      checkAuthentication,
-    ]
+    [activePath, router, checkAuthentication]
   );
   useEffect(() => {
     const source = cancelToken.source();
     getUserData(source);
     return () => source.cancel("Authentication check canceled ...");
-  }, [JSON.stringify(user || {})]);
+  }, [JSON.stringify(user || {}), getUserData]);
 
-  // if (process.env.NODE_ENV) return <>{children}</>;
   if (user) {
     if (["SUPERVISOR", "ADMIN"].includes(user.role)) return <>{children}</>;
     if (
       user.role === "CONSULTANT" &&
-      ["dashboard", "patients"].includes(activePath)
+      ["dashboard", "patients", "contacts"].includes(activePath)
     )
       return <>{children}</>;
     if (

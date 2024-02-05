@@ -10,13 +10,46 @@ const NotificationSvg: FunctionComponent<SvgIconProps> = ({ ...props }) => {
       viewBox='0 0 24 24'
       {...props}
     >
-      <g fill='none' stroke='currentColor' strokeWidth='1.5'>
-        <path d='M18.75 9.71v-.705C18.75 5.136 15.726 2 12 2S5.25 5.136 5.25 9.005v.705a4.4 4.4 0 0 1-.692 2.375L3.45 13.81c-1.011 1.575-.239 3.716 1.52 4.214a25.775 25.775 0 0 0 14.06 0c1.759-.498 2.531-2.639 1.52-4.213l-1.108-1.725a4.4 4.4 0 0 1-.693-2.375Z' />
+      <g
+        fill='none'
+        stroke='currentColor'
+        strokeLinecap='round'
+        strokeWidth='2'
+      >
+        <path strokeDasharray='4' strokeDashoffset='4' d='M12 3V5'>
+          <animate
+            fill='freeze'
+            attributeName='stroke-dashoffset'
+            dur='0.2s'
+            values='4;0'
+          />
+        </path>
         <path
-          strokeLinecap='round'
-          d='M7.5 19c.655 1.748 2.422 3 4.5 3s3.845-1.252 4.5-3'
-          opacity='.5'
-        />
+          strokeDasharray='28'
+          strokeDashoffset='28'
+          d='M12 5C8.68629 5 6 7.68629 6 11L6 17C5 17 4 18 4 19H12M12 5C15.3137 5 18 7.68629 18 11L18 17C19 17 20 18 20 19H12'
+        >
+          <animate
+            fill='freeze'
+            attributeName='stroke-dashoffset'
+            begin='0.2s'
+            dur='0.4s'
+            values='28;0'
+          />
+        </path>
+        <path
+          strokeDasharray='8'
+          strokeDashoffset='8'
+          d='M10 20C10 21.1046 10.8954 22 12 22C13.1046 22 14 21.1046 14 20'
+        >
+          <animate
+            fill='freeze'
+            attributeName='stroke-dashoffset'
+            begin='0.6s'
+            dur='0.2s'
+            values='8;0'
+          />
+        </path>
       </g>
     </svg>
   );

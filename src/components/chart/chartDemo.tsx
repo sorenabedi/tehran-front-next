@@ -71,6 +71,74 @@ const LineChartData: {
     },
   },
 };
+
+const Line2ChartData: {
+  options: ApexOptions;
+  series: ApexAxisChartSeries | ApexNonAxisChartSeries;
+} = {
+  series: [
+    {
+      name: "ناراضی",
+      data: [
+        getRndInteger(0, 400),
+        getRndInteger(0, 400),
+        getRndInteger(0, 400),
+        getRndInteger(0, 400),
+        getRndInteger(0, 400),
+        getRndInteger(0, 400),
+        getRndInteger(0, 400),
+      ],
+    },
+    {
+      name: "راضی",
+
+      data: [
+        getRndInteger(0, 400),
+        getRndInteger(0, 400),
+        getRndInteger(0, 400),
+        getRndInteger(0, 400),
+        getRndInteger(0, 400),
+        getRndInteger(0, 400),
+        getRndInteger(0, 400),
+      ],
+    },
+  ],
+  options: {
+    legend: { markers: { offsetX: 4 } },
+    stroke: {
+      curve: "smooth",
+    },
+    xaxis: {
+      type: "datetime",
+      categories: [
+        "2018-09-19T00:00:12.000Z",
+        "2018-09-19T01:30:00.000Z",
+        "2018-09-19T02:30:00.000Z",
+        "2018-09-19T03:30:00.000Z",
+        "2018-09-19T04:30:00.000Z",
+        "2018-09-19T05:30:00.000Z",
+        "2018-09-19T06:30:00.000Z",
+      ],
+    },
+    yaxis: {
+      labels: {
+        // style: {
+        //   cssClass: "fill-foreground",
+        // },
+      },
+    },
+    tooltip: {
+      enabled: true,
+      shared: false,
+      // cssClass: "!bg-background",
+      followCursor: true,
+      x: {
+        format: "dd/MM/yy HH:mm",
+      },
+    },
+  },
+};
+
 const pieChartData: {
   options: ApexOptions;
   series: ApexAxisChartSeries | ApexNonAxisChartSeries;
@@ -134,26 +202,28 @@ const ChartDemo: FunctionComponent<RTChartDemo> = ({ children }) => {
   return (
     <>
       <Chart
-        options={LineChartData.options}
-        series={LineChartData.series}
+        title='وضعیت پیگیری‌های هفته گذشته'
+        options={Line2ChartData.options}
+        series={Line2ChartData.series}
         type='area'
         height={350}
-        width='350'
+        width='400'
       />
       <Chart
+        title='وضعیت مخاطبین جدید در هفته گذشته'
         options={LineChartData.options}
         series={LineChartData.series}
         type='bar'
         height={350}
-        width='350'
+        width='400'
       />
       <Chart
         title='وضعیت تماس های ۳ روز اخیر'
         options={pieChartData.options}
         series={pieChartData.series}
         type='pie'
-        height={350}
-        width='350'
+        height={400}
+        width={400}
       />
       <Chart
         title='وضعیت تماس های ۳ روز اخیر'
@@ -161,7 +231,7 @@ const ChartDemo: FunctionComponent<RTChartDemo> = ({ children }) => {
         series={LineChartData.series}
         type='line'
         height={350}
-        width='350'
+        width='400'
       />
     </>
   );

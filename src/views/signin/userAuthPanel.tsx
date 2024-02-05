@@ -24,11 +24,11 @@ export function UserAuthPanel({ className, ...props }: UserAuthPanelProps) {
             ورود با پیامک
           </TabsTrigger>
         </TabsList>
-        <TabsContent value='otp' className='h-40'>
+        <TabsContent value='otp' className=''>
           <UserAuthOtpForm className='w-full mt-5 mx-auto' />
         </TabsContent>
-        <TabsContent value='password' className='h-40'>
-          <UserAuthPasswordForm className='w-full mt-5 mx-auto' />
+        <TabsContent value='password' className=''>
+          <UserAuthPasswordForm className='w-full mx-auto' />
         </TabsContent>
       </Tabs>
     </div>

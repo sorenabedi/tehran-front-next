@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -15,38 +14,65 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { AutosizeTextarea } from "@/components/ui/autosize-textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { contactCreate } from "@/api";
+import { toast } from "@/components/ui/toast";
 
 const formSchema = z.object({
-  firstName: z.string().min(2, {
-    message: "نام باید بیش از ۲ کاراکتر باشد.",
-  }),
-  lastName: z.string().min(2, {
-    message: "نام خانوادگی باید بیش از ۲ کاراکتر باشد.",
-  }),
+  firstName: z
+    .string()
+    // .min(2, {
+    //   message: "نام باید بیش از ۲ کاراکتر باشد.",
+    // })
+    .optional(),
+  lastName: z
+    .string()
+    // .min(2, {
+    //   message: "نام خانوادگی باید بیش از ۲ کاراکتر باشد.",
+    // })
+    .optional(),
   phoneNumber: z.coerce
     .string({ invalid_type_error: "تلفن تماس باید شامل اعداد باشد" })
-    .min(8, {
-      message: "تلفن تماس باید بیش از ۸ کاراکتر باشد",
+    .regex(/^\d+$/, "شماره تلفن تماس باید متشکل از اعداد باشد!")
+    .min(10, {
+      message: "تلفن تماس باید بیش از ۹ کاراکتر باشد",
+    })
+    .max(12, {
+      message: "تلفن تماس باید کمتر از ۱۲ کاراکتر باشد",
     }),
-  telegram: z.union(
-    [
-      z.string().length(0, { message: "آیدی باید بیش از ۲ کاراکتر باشد." }),
-      z.string().min(2, { message: "آیدی باید بیش از ۲ کاراکتر باشد." }),
-    ],
-    {}
-  ),
+  emergencyPhoneNumber: z.coerce
+    .string({ invalid_type_error: "تلفن تماس باید شامل اعداد باشد" })
+    .regex(/^\d+$/, "شماره تلفن تماس باید متشکل از اعداد باشد!")
+    .min(10, {
+      message: "تلفن تماس باید بیش از ۱۰ کاراکتر باشد",
+    })
+    .max(12, {
+      message: "تلفن تماس باید کمتر از ۱۲ کاراکتر باشد",
+    })
+    .optional(),
+  extraNotes: z.string({}).optional(),
+  referredBy: z.string({ required_error: "منبع انتخاب نشده است!" }),
+  telegram: z
+    .union(
+      [
+        z.string().length(0, { message: "آیدی باید بیش از ۲ کاراکتر باشد." }),
+        z.string().min(2, { message: "آیدی باید بیش از ۲ کاراکتر باشد." }),
+      ],
+      {}
+    )
+    .optional(),
   instagram: z
     .union([
       z.string().length(0, { message: "آیدی باید بیش از ۲ کاراکتر باشد." }),
       z.string().min(2, { message: "آیدی باید بیش از ۲ کاراکتر باشد." }),
     ])
-    .optional(),
-  whatsApp: z
-    .union([
-      z.string().length(0, { message: "آیدی باید بیش از ۲ کاراکتر باشد." }),
-      z.string().min(2, { message: "آیدی باید بیش از ۲ کاراکتر باشد." }),
-    ])
-
     .optional(),
 });
 
@@ -59,32 +85,52 @@ const ContactCreateView = (props: Props) => {
       firstName: "",
       lastName: "",
       phoneNumber: "",
+      emergencyPhoneNumber: undefined,
+      extraNotes: "",
       telegram: "",
-      whatsApp: "",
       instagram: "",
+      referredBy: "",
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  async function onSubmit({
+    telegram,
+    instagram,
+    ...values
+  }: z.infer<typeof formSchema>) {
+    try {
+      console.log(values);
+
+      await contactCreate({
+        ...values,
+        socialMedia: {
+          telegram: telegram || undefined,
+          instagram: instagram || undefined,
+        } as Record<string, string>,
+      });
+      toast.success("مخاطب جدید ذخیره شد.");
+      form.reset();
+    } catch (error) {
+      toast.error((error as Error).message);
+    }
   }
 
   return (
-    <PanelLayout className='w-full overflow-auto px-3 py-5'>
+    <PanelLayout className='w-full flex flex-col flex-1 h-full overflow-auto px-3 py-5'>
       <h2 className='px-5 mb-10 font-semibold text-center text-lg'>
         مخاطب جدید
       </h2>
       <h3 className='px-5 mb-10 font-normal text-base'>اطلاعات تماس:</h3>
       <Form {...form}>
         <form
-          onSubmit={form.handleSubmit(onSubmit)}
+          onSubmit={form.handleSubmit(onSubmit, (e) => console.log(e))}
           className='spsace-y-8 flex justify-between flex-wrap gap-2.5 px-5'
         >
           <FormField
             control={form.control}
             name='firstName'
             render={({ field }) => (
-              <FormItem className='w-5/12'>
+              <FormItem className='w-full md:w-5/12'>
                 <FormLabel>نام</FormLabel>
                 <FormControl>
                   <Input placeholder='نام ...' autoComplete='off' {...field} />
@@ -97,7 +143,7 @@ const ContactCreateView = (props: Props) => {
             control={form.control}
             name='lastName'
             render={({ field }) => (
-              <FormItem className='w-5/12'>
+              <FormItem className='w-full md:w-5/12'>
                 <FormLabel>نام خانوادگی</FormLabel>
                 <FormControl>
                   <Input
@@ -114,13 +160,12 @@ const ContactCreateView = (props: Props) => {
             control={form.control}
             name='phoneNumber'
             render={({ field }) => (
-              <FormItem className='w-5/12 mie-auto'>
+              <FormItem className='w-full md:w-5/12'>
                 <FormLabel>تلفن تماس</FormLabel>
                 <FormControl>
                   <Input
                     placeholder='تلفن تماس ...'
                     inputMode='numeric'
-                    pattern='[0-9]{}'
                     autoComplete='off'
                     {...field}
                   />
@@ -129,6 +174,40 @@ const ContactCreateView = (props: Props) => {
               </FormItem>
             )}
           />
+          <FormField
+            control={form.control}
+            name='referredBy'
+            render={({ field }) => (
+              <FormItem className='w-full md:w-5/12'>
+                <FormLabel>منبع</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  value={field.value}
+                  dir='rtl'
+                >
+                  <FormControl>
+                    <SelectTrigger className='w-full'>
+                      <SelectValue placeholder='منبع ...' />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value='instagram'>اینستاگرام</SelectItem>
+                    <SelectItem value='telegram'>تلگرام</SelectItem>
+                    <SelectItem value='whatsApp'>واتساپ</SelectItem>
+                    <SelectItem value='dayLedger'>دفتر روز</SelectItem>
+                    <SelectItem value='inPerson'>حضوری</SelectItem>
+                    <SelectItem value='friends'>دوستان</SelectItem>
+                    <SelectItem value='textAdvertisement'>
+                      تبلیغات پیامکی
+                    </SelectItem>
+                    <SelectItem value='other'>سایر</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
           <Separator className='w-8/12 my-10 mx-auto opacity-0' />
           <h3 className='mb-10 mie-auto font-normal text-base w-full'>
             اطلاعات شبکه های اجتماعی:
@@ -137,7 +216,7 @@ const ContactCreateView = (props: Props) => {
             control={form.control}
             name='telegram'
             render={({ field }) => (
-              <FormItem className='w-5/12'>
+              <FormItem className='w-full md:w-5/12'>
                 <FormLabel>آیدی تلگرام</FormLabel>
                 <FormControl>
                   <Input
@@ -152,13 +231,13 @@ const ContactCreateView = (props: Props) => {
           />
           <FormField
             control={form.control}
-            name='whatsApp'
+            name='instagram'
             render={({ field }) => (
-              <FormItem className='w-5/12'>
-                <FormLabel>آیدی واتساپ</FormLabel>
+              <FormItem className='w-full md:w-5/12'>
+                <FormLabel>آیدی اینستاگرام</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder='آیدی واتساپ ...'
+                    placeholder='آیدی اینستاگرام ...'
                     autoComplete='off'
                     {...field}
                   />
@@ -169,13 +248,13 @@ const ContactCreateView = (props: Props) => {
           />
           <FormField
             control={form.control}
-            name='instagram'
+            name='extraNotes'
             render={({ field }) => (
-              <FormItem className='w-5/12'>
-                <FormLabel>آیدی اینستاگرام</FormLabel>
+              <FormItem className='w-full mt-4'>
+                <FormLabel>توضیحات بیشتر</FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder='آیدی اینستاگرام ...'
+                  <AutosizeTextarea
+                    placeholder='توضیحات بیشتر ...'
                     autoComplete='off'
                     {...field}
                   />

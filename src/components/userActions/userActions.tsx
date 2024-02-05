@@ -25,16 +25,19 @@ const UserActions: FunctionComponent = ({}) => {
       <DropdownMenu dir='rtl'>
         <DropdownMenuTrigger>
           <Button variant='ghost' className='px-2 gap-2 group'>
-            <ChevronDownSvg className='transition-transform -translate-x-6 group-hover:translate-x-0 group-focus:translate-x-0' />
+            <ChevronDownSvg className='' />
             <Avatar className='w-7 h-7 aspect-square flex-shrink-0'>
-              <AvatarImage src={user?.avatar || logoWhite.src} />
+              <AvatarImage
+                className='backdrop-blur-sm'
+                src={user?.avatar || logoWhite.src}
+              />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent
           align='end'
-          className='w-56 bg-opacity-20 backdrop-blur-sm'
+          className='w-56 bg-opacity-90 backdrop-blur-sm'
         >
           <DropdownMenuLabel className='w-full flex justify-between items-center gap-2.5 px-1.5'>
             <Avatar className='w-12 h-12 aspect-square flex-shrink-0'>
@@ -47,7 +50,12 @@ const UserActions: FunctionComponent = ({}) => {
               </span>
               <Separator className='mx-auto my-2 w-8/12 opacity-1005' />
               <span className='text-sm font-medium truncate overflow-hidden'>
-                {user?.phoneNumber}
+                {user?.phoneNumber
+                  ? "۰" +
+                    Number(user?.phoneNumber).toLocaleString("fa", {
+                      useGrouping: false,
+                    })
+                  : undefined}
               </span>
             </div>
           </DropdownMenuLabel>

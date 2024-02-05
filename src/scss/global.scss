@@ -99,3 +99,99 @@
         stroke-dashoffset: -124px;
     }
 }
+
+.rmdp-week-day {
+    color: hsl(var(--foreground)) !important
+}
+
+.rmdp-wrapper {
+
+    background-color: hsl(var(--background)) !important;
+}
+
+.rmdp-shadow,
+.rmdp-day.rmdp-selected {
+    box-shadow: none !important;
+
+}
+
+.rmdp-arrow {
+    border-color: hsl(var(--primary)) !important;
+    margin-top: 0px !important;
+}
+
+.rmdp-arrow-container {
+    border-radius: var(--radius) !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 35px !important;
+    height: 35px !important;
+
+    &:hover {
+        background-color: hsl(var(--primary)) !important;
+        box-shadow: none !important;
+
+        .rmdp-arrow {
+            border-color: hsl(var(--background)) !important;
+            box-shadow: none !important;
+        }
+    }
+}
+
+.rmdp-day.rmdp-selected span:not(.highlight) {
+    background-color: hsl(var(--primary)) !important;
+    box-shadow: none !important;
+    color: hsl(var(--foreground)) !important;
+
+}
+
+.rmdp-day.rmdp-selected {
+    box-shadow: none !important;
+}
+
+.rmdp-day.rmdp-today span {
+    background-color: transparent !important;
+    border: 1px solid hsl(var(--primary)) !important;
+    color: hsl(var(--foreground)) !important;
+}
+
+.rmdp-day:not(.rmdp-disabled, .rmdp-day-hidden) span:hover,
+.rmdp-month-picker {
+    background-color: hsl(var(--primary) / 70%) !important;
+    color: hsl(var(--foreground)) !important;
+}
+
+.rmdp-month-picker {
+    color: hsl(var(--foreground)) !important;
+    background-color: hsl(var(--background)) !important;
+}
+
+.rmdp-day span {
+    color: hsl(var(--foreground)) !important;
+    font-size: 1rem;
+    border-radius: var(--radius) !important;
+    display: inline-table;
+    width: 80%;
+    margin-inline: auto;
+}
+
+.rmdp-header-values,
+.rmdp-year-picker {
+    background-color: hsl(var(--background)) !important;
+    color: hsl(var(--foreground)) !important;
+    font-size: 1rem;
+}
+
+.rmdp-calendar,
+.rmdp-day-picker {
+    width: 100% !important;
+
+    &>div {
+        width: 100% !important;
+    }
+}
+
+* {
+    transition: width .3s linear;
+}

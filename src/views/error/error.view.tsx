@@ -11,7 +11,6 @@ interface TRErrorView {
 const ErrorView: FunctionComponent<TRErrorView> = ({ type = "notFound" }) => {
   const router = useRouter();
   const user = useUserStore(({ user }) => user);
-  console.log({ user });
 
   return (
     <div className='min-h-dvh w-full flex flex-col justify-center items-center gap-3'>

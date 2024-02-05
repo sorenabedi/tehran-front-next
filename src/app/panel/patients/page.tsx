@@ -1,7 +1,8 @@
+import PatientsView from "@/views/patients/patient.view";
 import React, { FunctionComponent } from "react";
 
 const PatientsPage: FunctionComponent = ({}) => {
-  return <>Patients</>;
+  return <><PatientsView/></>;
 };
 PatientsPage.displayName = "PatientsPage";
 

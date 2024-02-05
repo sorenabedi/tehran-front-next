@@ -8,15 +8,15 @@ export interface TRNotificationPanelTrigger
 
 const NotificationPanelTrigger: FunctionComponent<
   TRNotificationPanelTrigger
-> = ({ className, ...rest }) => {
+> = ({ className, hidden, ...rest }) => {
   return (
     <Button
       variant='ghost'
-      className={clsx("py-4 px-2 relative", className)}
+      className={clsx("py-4 px-2 relative", hidden && "hidden", className)}
       {...rest}
     >
       <NotificationSvg className='text-xl' />
-      <span className='absolute flex h-2 w-2 translate-x-1.5 -translate-y-2'>
+      <span className='absolute flex h-2 w-2 translate-x-1 -translate-y-1.5'>
         <span className='animate-ping !delay-700 absolute inline-flex h-full w-full rounded-full bg-destructive opacity-75'></span>
         <span className='relative inline-flex rounded-full h-2 w-2 bg-destructive'></span>
       </span>

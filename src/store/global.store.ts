@@ -5,6 +5,11 @@ export type TRGlobalStore = {
   LoadingLayoutShow: () => void;
   LoadingLayoutHide: () => void;
   LoadingLayoutToggle: () => void;
+
+  sidebarStatus: boolean;
+  SidebarShow: () => void;
+  SidebarClose: () => void;
+  SidebarToggle: () => void;
 };
 
 export const useGlobalStore = create<TRGlobalStore>((set) => ({
@@ -13,4 +18,8 @@ export const useGlobalStore = create<TRGlobalStore>((set) => ({
   LoadingLayoutHide: () => set(() => ({ loadingLayoutStatus: false })),
   LoadingLayoutToggle: () =>
     set((state) => ({ loadingLayoutStatus: !state.loadingLayoutStatus })),
+  sidebarStatus: false,
+  SidebarShow: () => set(() => ({ sidebarStatus: true })),
+  SidebarClose: () => set(() => ({ sidebarStatus: false })),
+  SidebarToggle: () => set((state) => ({ sidebarStatus: !state.sidebarStatus })),
 }));

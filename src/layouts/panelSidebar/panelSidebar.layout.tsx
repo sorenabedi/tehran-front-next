@@ -7,7 +7,7 @@ export interface RTNavbarLayout extends PropsWithChildren {}
 const NavbarLayout: FunctionComponent<RTNavbarLayout> = ({ children }) => {
   return (
     <div
-      className='h-dvh flex gap-2.5 relative px-5 overflow-hidden'
+      className='h-dvh flex relative md:gap-2.5 px-2 sm:px-5 overflow-hidden'
       suppressHydrationWarning
     >
       <aside className='h-dvh flex-shrink-0 h-full py-5 flex flex-col overflow-auto'>
